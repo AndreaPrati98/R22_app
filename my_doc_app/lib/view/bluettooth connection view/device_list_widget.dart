@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 
 import 'package:my_doc_app/model/bluetooth_controller.dart';
-import 'package:my_doc_app/view/device_details.dart';
-import 'package:my_doc_app/view/device_preview_widget.dart';
+import 'package:my_doc_app/view/bluettooth%20connection%20view/device_details.dart';
+import 'package:my_doc_app/view/bluettooth%20connection%20view/device_preview_widget.dart';
 
 class DeviceListWidget extends StatefulWidget {
   const DeviceListWidget({Key? key}) : super(key: key);

@@ -1,3 +1,5 @@
+import 'dart:developer' as devtools;
+
 import 'package:flutter/material.dart';
 import 'package:my_doc_app/view/Device_list_widget.dart';
 
@@ -37,6 +39,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   int _selectedIndex = 0;
   void _onItemTapped(int index) {
+    devtools.log("Changing index -> $index", name: runtimeType.toString());
     setState(() {
       _selectedIndex = index;
     });
