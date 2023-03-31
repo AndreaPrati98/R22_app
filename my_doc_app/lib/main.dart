@@ -1,7 +1,9 @@
 import 'dart:developer' as devtools;
 
 import 'package:flutter/material.dart';
-import 'package:my_doc_app/view/Device_list_widget.dart';
+
+import 'package:my_doc_app/view/bluettooth%20connection%20view/device_list_widget.dart';
+import 'package:my_doc_app/view/recording%20screen/recording_main_widget.dart';
 
 void main() {
   runApp(const MyApp());
@@ -33,7 +35,7 @@ class _MyHomePageState extends State<MyHomePage> {
   /// List of widget accessible from the [NavigationBar]
   final List<Widget> _widgetList = [
     const DeviceListWidget(),
-    const Text("Prova 2"),
+    const RecordingMainWidget(),
     const Text("Prova 3"),
   ];
 
