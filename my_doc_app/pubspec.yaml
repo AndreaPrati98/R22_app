@@ -38,6 +38,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   flutter_blue_plus: ^1.4.0
   path_provider: ^2.0.14
+  simple_ripple_animation: ^0.0.3
   # flutter_blue: ^0.8.0
 
 dev_dependencies:
