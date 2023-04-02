@@ -40,6 +40,7 @@ dependencies:
   path_provider: ^2.0.14
   simple_ripple_animation: ^0.0.3
   shared_preferences: ^2.0.20
+  path: ^1.8.2
   # flutter_blue: ^0.8.0
 
 dev_dependencies:
