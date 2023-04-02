@@ -19,7 +19,7 @@ class RecordingFileWidget extends StatelessWidget {
               children: [
                 const Padding(
                   padding: EdgeInsets.symmetric(horizontal: 14),
-                  child: Text("Nome del file"),
+                  child: Text("Name of the file"),
                 ),
                 Container(
                   height: 70,
@@ -28,7 +28,7 @@ class RecordingFileWidget extends StatelessWidget {
                 ),
                 const Padding(
                   padding: EdgeInsets.symmetric(horizontal: 10),
-                  child: Text("Durata"),
+                  child: Text("Duration"),
                 ),
                 Container(
                   height: 70,
@@ -40,7 +40,7 @@ class RecordingFileWidget extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: IconButton(
-                onPressed: () => devtools.log("Cancella registrazione"),
+                onPressed: () => devtools.log("Delete recording"),
                 icon: const Icon(Icons.delete_outlined),
                 iconSize: 30,
                 color: Colors.red,
