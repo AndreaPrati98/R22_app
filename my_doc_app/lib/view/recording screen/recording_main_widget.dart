@@ -1,7 +1,9 @@
 import 'dart:developer' as devtools;
 
 import 'package:flutter/material.dart';
+import 'package:my_doc_app/model/file_handler.dart';
 import 'package:my_doc_app/view/recording%20screen/recording_animated_widget.dart';
+import 'package:my_doc_app/view/recording%20screen/recording_file.dart';
 
 class RecordingMainWidget extends StatefulWidget {
   const RecordingMainWidget({Key? key}) : super(key: key);
@@ -11,8 +13,6 @@ class RecordingMainWidget extends StatefulWidget {
 }
 
 class _RecordingMainWidgetState extends State<RecordingMainWidget> {
-  bool _isRecording = false;
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -27,12 +27,20 @@ class _RecordingMainWidgetState extends State<RecordingMainWidget> {
             style: TextStyle(fontWeight: FontWeight.w200, fontSize: 40),
           ),
         ),
-        ElevatedButton.icon(
-          onPressed: () => devtools.log("Started the recording..."),
-          icon: const Icon(Icons.play_arrow_outlined),
-          label: const Text("Start recording"),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(
+            "Path to the folder with the recordings:",
+            style: Theme.of(context).textTheme.headline6,
+          ),
         ),
-        RecordingAnimatedWidget(),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(
+              FileHanlder.instance.recordingsDirectory ?? 'Not initialized...'),
+        ),
+        const RecordingAnimatedWidget(),
+        RecordingFileWidget(),
       ],
     );
   }
