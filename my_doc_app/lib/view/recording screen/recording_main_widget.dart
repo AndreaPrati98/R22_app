@@ -13,6 +13,8 @@ class RecordingMainWidget extends StatefulWidget {
 }
 
 class _RecordingMainWidgetState extends State<RecordingMainWidget> {
+  var recordingDirectory = FileHanlder.instance.recordingsDirectory;
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -36,8 +38,7 @@ class _RecordingMainWidgetState extends State<RecordingMainWidget> {
         ),
         Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Text(
-              FileHanlder.instance.recordingsDirectory ?? 'Not initialized...'),
+          child: Text(recordingDirectory ?? 'Not initialized...'),
         ),
         const RecordingAnimatedWidget(),
         RecordingFileWidget(),

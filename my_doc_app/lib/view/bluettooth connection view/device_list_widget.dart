@@ -40,6 +40,7 @@ class _DeviceListWidgetState extends State<DeviceListWidget> {
                 ),
               ),
             ),
+            const Text('Scroll this screen to start the bluetooth scan'),
             StreamBuilder<List<ScanResult>>(
               stream: BluetoothController.instance.fb.scanResults,
               initialData: const [],
