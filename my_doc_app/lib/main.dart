@@ -1,11 +1,17 @@
 import 'dart:developer' as devtools;
 
 import 'package:flutter/material.dart';
+import 'package:my_doc_app/model/file_handler.dart';
 
 import 'package:my_doc_app/view/bluettooth%20connection%20view/device_list_widget.dart';
 import 'package:my_doc_app/view/recording%20screen/recording_main_widget.dart';
+import 'package:my_doc_app/view/share%20files/share_main_widget.dart';
 
 void main() {
+  // This is important to be sure that everything is initialized.
+  // check on internet to know more about this line;
+  WidgetsFlutterBinding.ensureInitialized();
+
   runApp(const MyApp());
 }
 
@@ -36,7 +42,7 @@ class _MyHomePageState extends State<MyHomePage> {
   final List<Widget> _widgetList = [
     const DeviceListWidget(),
     const RecordingMainWidget(),
-    const Text("Prova 3"),
+    const ShareMainWidget(),
   ];
 
   int _selectedIndex = 0;
