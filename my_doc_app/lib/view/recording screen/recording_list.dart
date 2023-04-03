@@ -6,33 +6,57 @@ import 'package:my_doc_app/view/recording%20screen/recording_file.dart';
 import 'package:path/path.dart' as p;
 
 /// It display the list of files in the folder 'recording'. \
-class RecordingList extends StatefulWidget {
-  const RecordingList({Key? key}) : super(key: key);
+class RecordingListWidget extends StatefulWidget {
+  const RecordingListWidget({Key? key}) : super(key: key);
 
   @override
-  State<RecordingList> createState() => _RecordingListState();
+  State<RecordingListWidget> createState() => _RecordingListWidgetState();
 }
 
-class _RecordingListState extends State<RecordingList> {
-  late List<File> recordingLists;
+class _RecordingListWidgetState extends State<RecordingListWidget> {
+  List<File> recordingLists = [];
   bool isLoading = false;
 
   @override
-  void initState() async {
+  void initState() {
     super.initState();
+    setState(() {
+      isLoading = true;
+    });
+    _retrieveListFile();
+  }
+
+  void _retrieveListFile() async {
     recordingLists = await FileHanlder.instance.listRecordings;
+    setState(() {
+      isLoading = false;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemBuilder: (context, index) {
-        File el = recordingLists[index];
-        return RecordingFileWidget(
-          fileName: p.basename(el.path),
-          fileCreationDate: el.lastModifiedSync().toIso8601String(),
-        );
-      },
+    return Expanded(
+      child: ListView(
+        shrinkWrap: true,
+        // primary: false,
+        children: recordingLists
+            .map(
+              (e) => RecordingFileWidget(
+                fileName: p.basename(e.path),
+                fileCreationDate: e.lastModifiedSync().toIso8601String(),
+              ),
+            )
+            .toList(),
+      ),
     );
+    // ListView.builder(
+    //   shrinkWrap: true,
+    //   itemBuilder: (context, index) {
+    //     return RecordingFileWidget(
+    //         fileName: p.basename(recordingLists[index].path),
+    //         fileCreationDate:
+    //             recordingLists[index].lastModifiedSync().toIso8601String());
+    //   },
+    // );
   }
 }
