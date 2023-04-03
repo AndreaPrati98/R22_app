@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -27,8 +28,9 @@ class _RecordingListWidgetState extends State<RecordingListWidget> {
   }
 
   void _retrieveListFile() async {
-    recordingLists = await FileHanlder.instance.listRecordings;
+    List<File> localList = await FileHanlder.instance.listRecordings;
     setState(() {
+      recordingLists = localList;
       isLoading = false;
     });
   }
@@ -44,19 +46,11 @@ class _RecordingListWidgetState extends State<RecordingListWidget> {
               (e) => RecordingFileWidget(
                 fileName: p.basename(e.path),
                 fileCreationDate: e.lastModifiedSync().toIso8601String(),
+                callbackRefreshState: () => _retrieveListFile(),
               ),
             )
             .toList(),
       ),
     );
-    // ListView.builder(
-    //   shrinkWrap: true,
-    //   itemBuilder: (context, index) {
-    //     return RecordingFileWidget(
-    //         fileName: p.basename(recordingLists[index].path),
-    //         fileCreationDate:
-    //             recordingLists[index].lastModifiedSync().toIso8601String());
-    //   },
-    // );
   }
 }

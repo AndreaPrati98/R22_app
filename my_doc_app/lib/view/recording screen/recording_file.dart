@@ -7,10 +7,13 @@ class RecordingFileWidget extends StatelessWidget {
   final String fileName;
   final String fileCreationDate;
 
+  final void Function() callbackRefreshState;
+
   const RecordingFileWidget({
     Key? key,
     required this.fileName,
     required this.fileCreationDate,
+    required this.callbackRefreshState,
   }) : super(key: key);
 
   @override
@@ -84,11 +87,16 @@ class RecordingFileWidget extends StatelessWidget {
                           ElevatedButton(
                             onPressed: () {
                               devtools.log(
-                                'Pressed deleting file',
+                                'Confirm deleting file',
                                 name: runtimeType.toString(),
                               );
                               FileHanlder.instance
                                   .deleteRecordingFile(fileName);
+                              // this callback is fundamental because we need to notify the parent's setState.
+                              // in the future could be a good idea to considera a proper state manager for flutter
+                              // such as Provider.
+                              callbackRefreshState.call();
+
                               Navigator.pop(context);
                             },
                             child: const Text('Yes'),
