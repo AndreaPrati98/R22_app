@@ -16,6 +16,8 @@ class FileHanlder {
   ///
   /// Each recording will be
   final String recording_prefix = 'rec_';
+  final String recording_key = 'numerOfFiles';
+  final String header_recording = 'tick,x,y,z';
 
   /// Object which allow to retrieve the count of files we have in the folder.
   late SharedPreferences _preferences;
@@ -24,8 +26,8 @@ class FileHanlder {
   /// with that key it will return 0.
   ///
   /// This value is used to give the names to the files for saving them.
-  int get numOfFiles => _preferences.getInt('numerOfFiles') ?? 0;
-  set numOfFiles(int number) => _preferences.setInt('numberOfFiles', number);
+  int get numOfFiles => _preferences.getInt(recording_key) ?? 0;
+  set numOfFiles(int number) => _preferences.setInt(recording_key, number);
 
   /// Folder used to save files
   Future<String> get documentDirectory async => (await _documentDir).path;
@@ -43,10 +45,12 @@ class FileHanlder {
   /// It was necessary because it's not possible to use them from the constructor of the class.
   void _asyncOperations() async {
     await _getDirectories();
+    await _getSharedPreferences();
     // don't care the order of execution of the two following method
     _mockFiles();
-    _getSharedPreferences();
+    createRecordingFile();
     //-----------------------
+    await listRecordings;
   }
 
   /// Gets the directories for the application document and for the recordings. If the directories
@@ -88,8 +92,51 @@ class FileHanlder {
     }
   }
 
+  /// Create a new file for the recording using the [recordingsDirectory]'s and the
+  /// [numOfFiles] and, also, it write the header in the [File].
+  ///
+  /// In case the creation of the file or the writing of the header throws an exception the fuction return `false` otherwise
+  /// it return `true`.
+  bool createRecordingFile() {
+    try {
+      numOfFiles++; // increment the number of files
+      File file =
+          File('${_recordingDir?.path}/$recording_prefix$numOfFiles.csv')
+            ..createSync();
+
+      return _writeHeaderRecordingFile(file);
+    } catch (err) {
+      devtools.log(
+        "Something went wrong during the creation of the recording file.",
+        name: runtimeType.toString(),
+      );
+      devtools.log(
+        err.toString(),
+        name: runtimeType.toString(),
+      );
+      return false;
+    }
+  }
+
+  bool _writeHeaderRecordingFile(File file) {
+    try {
+      file.writeAsStringSync(header_recording);
+      return true;
+    } catch (err) {
+      devtools.log(
+        "Something whent wrong during the writing of the recording's header",
+        name: runtimeType.toString(),
+      );
+      devtools.log(
+        err.toString(),
+        name: runtimeType.toString(),
+      );
+      return false;
+    }
+  }
+
   /// [fileToDelete] = name of the file to be deleted
-  void delete_recording(String fileToDelete) {
+  void deleteRecordingFile(String fileToDelete) {
     File('${_recordingDir?.path}/$fileToDelete').deleteSync();
   }
 
@@ -102,6 +149,10 @@ class FileHanlder {
           recList.add(el);
         }
       }
+      devtools.log(
+        "Number of files retrieved: ${recList.length}",
+        name: runtimeType.toString(),
+      );
     } else {
       devtools.log(
         "Tried to access a folder which is null",
