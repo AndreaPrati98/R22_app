@@ -1,6 +1,7 @@
 import 'dart:developer' as devtools;
 import 'dart:io';
 
+import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -144,8 +145,9 @@ class FileHanlder {
     List<File> recList = [];
     if (_recordingDir != null) {
       await for (var el in _recordingDir!.list()) {
-        // want to list only the files
-        if (el is File) {
+        // want to list only files and we want to skip the hidden files (that starts with the point)
+
+        if (el is File && !p.basename(el.path).startsWith('.')) {
           recList.add(el);
         }
       }
