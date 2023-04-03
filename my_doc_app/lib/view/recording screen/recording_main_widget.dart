@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:my_doc_app/model/file_handler.dart';
 import 'package:my_doc_app/view/recording%20screen/recording_animated_widget.dart';
 import 'package:my_doc_app/view/recording%20screen/recording_file.dart';
+import 'package:my_doc_app/view/recording%20screen/recording_list.dart';
 
 class RecordingMainWidget extends StatefulWidget {
   const RecordingMainWidget({Key? key}) : super(key: key);
@@ -35,26 +36,28 @@ class _RecordingMainWidgetState extends State<RecordingMainWidget> {
             if (snapshot.connectionState != ConnectionState.done) {
               return const CircularProgressIndicator();
             } else {
-              return Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      "Path to the folder with the recordings:",
-                      style: Theme.of(context).textTheme.headline6,
+              return Expanded(
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        "Path to the folder with the recordings:",
+                        style: Theme.of(context).textTheme.headline6,
+                      ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(fileHandler.recordingsDirectory!),
-                  ),
-                  const RecordingAnimatedWidget(),
-                  // todo: remove this widget, it is here only for debug purpose
-                  RecordingFileWidget(
-                      fileName: "Trial, very long name",
-                      fileCreationDate: DateTime(2023).toIso8601String()),
-                  // RecordingList(),
-                ],
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(fileHandler.recordingsDirectory!),
+                    ),
+                    const RecordingAnimatedWidget(),
+                    // todo: remove this widget, it is here only for debug purpose
+                    RecordingFileWidget(
+                        fileName: "Trial, very long name",
+                        fileCreationDate: DateTime(2023).toIso8601String()),
+                    const RecordingListWidget(),
+                  ],
+                ),
               );
             }
           },
