@@ -1,7 +1,6 @@
 import 'dart:developer' as devtools;
 
 import 'package:flutter/material.dart';
-import 'package:my_doc_app/model/file_handler.dart';
 
 import 'package:my_doc_app/view/bluettooth%20connection%20view/device_list_widget.dart';
 import 'package:my_doc_app/view/recording%20screen/recording_main_widget.dart';

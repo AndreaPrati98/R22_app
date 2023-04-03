@@ -3,7 +3,6 @@ import 'dart:developer' as devtools;
 import 'package:flutter/material.dart';
 import 'package:my_doc_app/model/file_handler.dart';
 import 'package:my_doc_app/view/recording%20screen/recording_animated_widget.dart';
-import 'package:my_doc_app/view/recording%20screen/recording_file.dart';
 import 'package:my_doc_app/view/recording%20screen/recording_list.dart';
 
 class RecordingMainWidget extends StatefulWidget {
@@ -51,10 +50,6 @@ class _RecordingMainWidgetState extends State<RecordingMainWidget> {
                       child: Text(fileHandler.recordingsDirectory!),
                     ),
                     const RecordingAnimatedWidget(),
-                    // todo: remove this widget, it is here only for debug purpose
-                    RecordingFileWidget(
-                        fileName: "Trial, very long name",
-                        fileCreationDate: DateTime(2023).toIso8601String()),
                     const RecordingListWidget(),
                   ],
                 ),
