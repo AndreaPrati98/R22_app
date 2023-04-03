@@ -1,6 +1,7 @@
 import 'dart:developer' as devtools;
 
 import 'package:flutter/material.dart';
+import 'package:my_doc_app/model/file_handler.dart';
 
 class RecordingFileWidget extends StatelessWidget {
   final String fileName;
@@ -57,7 +58,46 @@ class RecordingFileWidget extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: IconButton(
-                onPressed: () => devtools.log("Delete recording"),
+                onPressed: () {
+                  devtools.log(
+                    "Delete recording",
+                    name: runtimeType.toString(),
+                  );
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        title: Text('Deleting file: $fileName'),
+                        content: const Text(
+                            'Are you sure you what delete this file?'),
+                        actions: <Widget>[
+                          TextButton(
+                            onPressed: () {
+                              devtools.log(
+                                'Not so sure',
+                                name: runtimeType.toString(),
+                              );
+                              Navigator.pop(context);
+                            },
+                            child: const Text('No'),
+                          ),
+                          ElevatedButton(
+                            onPressed: () {
+                              devtools.log(
+                                'Pressed deleting file',
+                                name: runtimeType.toString(),
+                              );
+                              FileHanlder.instance
+                                  .deleteRecordingFile(fileName);
+                              Navigator.pop(context);
+                            },
+                            child: const Text('Yes'),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                },
                 icon: const Icon(Icons.delete_outlined),
                 iconSize: 30,
                 color: Colors.red,
