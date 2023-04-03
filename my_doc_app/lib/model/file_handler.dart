@@ -16,9 +16,9 @@ class FileHanlder {
   /// Prefix used for all the recordings
   ///
   /// Each recording will be
-  final String recording_prefix = 'rec_';
-  final String recording_key = 'numerOfFiles';
-  final String header_recording = 'tick,x,y,z';
+  final String recordingPrefix = 'rec_';
+  final String recordingKey = 'numerOfFiles';
+  final String headerRecording = 'tick,x,y,z';
 
   /// Object which allow to retrieve the count of files we have in the folder.
   late SharedPreferences _preferences;
@@ -27,8 +27,8 @@ class FileHanlder {
   /// with that key it will return 0.
   ///
   /// This value is used to give the names to the files for saving them.
-  int get numOfFiles => _preferences.getInt(recording_key) ?? 0;
-  set numOfFiles(int number) => _preferences.setInt(recording_key, number);
+  int get numOfFiles => _preferences.getInt(recordingKey) ?? 0;
+  set numOfFiles(int number) => _preferences.setInt(recordingKey, number);
 
   /// Folder used to save files
   Future<String> get documentDirectory async => (await _documentDir).path;
@@ -101,9 +101,8 @@ class FileHanlder {
   bool createRecordingFile() {
     try {
       numOfFiles++; // increment the number of files
-      File file =
-          File('${_recordingDir?.path}/$recording_prefix$numOfFiles.csv')
-            ..createSync();
+      File file = File('${_recordingDir?.path}/$recordingPrefix$numOfFiles.csv')
+        ..createSync();
 
       return _writeHeaderRecordingFile(file);
     } catch (err) {
@@ -121,7 +120,7 @@ class FileHanlder {
 
   bool _writeHeaderRecordingFile(File file) {
     try {
-      file.writeAsStringSync(header_recording);
+      file.writeAsStringSync(headerRecording);
       return true;
     } catch (err) {
       devtools.log(
