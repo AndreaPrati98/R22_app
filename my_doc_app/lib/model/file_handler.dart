@@ -9,7 +9,7 @@ class FileHanlder {
   static final FileHanlder instance = FileHanlder._init();
 
   /// directory in which the application saves the files
-  Directory? _documentDir;
+  final Future<Directory> _documentDir = getApplicationDocumentsDirectory();
   Directory? _recordingDir;
 
   /// Prefix used for all the recordings
@@ -28,14 +28,14 @@ class FileHanlder {
   set numOfFiles(int number) => _preferences.setInt('numberOfFiles', number);
 
   /// Folder used to save files
-  String? get documentDirectory => _documentDir?.path;
+  Future<String> get documentDirectory async => (await _documentDir).path;
 
   /// Folder used to store recordings
   String? get recordingsDirectory => _recordingDir?.path;
 
   FileHanlder._init() {
-    devtools.log('Creation of the class', name: runtimeType.toString());
     _asyncOperations();
+    devtools.log('Creation of the class', name: runtimeType.toString());
   }
 
   /// Auxiliar method used to give an execution order to the async methods of the class.
@@ -43,17 +43,18 @@ class FileHanlder {
   /// It was necessary because it's not possible to use them from the constructor of the class.
   void _asyncOperations() async {
     await _getDirectories();
+    // don't care the order of execution of the two following method
     _mockFiles();
-    await _getSharedPreferences();
+    _getSharedPreferences();
+    //-----------------------
   }
 
   /// Gets the directories for the application document and for the recordings. If the directories
-  /// doesn't exists it will create them.
+  /// don't exist it will create them.
   Future<bool> _getDirectories() async {
     // the two directories are not `null` if the method works.
     try {
-      _documentDir = await getApplicationDocumentsDirectory();
-      _recordingDir = Directory('${_documentDir!.path}/recordings')
+      _recordingDir = Directory('${(await _documentDir).path}/recordings')
         ..createSync();
       devtools.log(
           "The path on which the file is saved is: ${_recordingDir?.path}",
@@ -75,7 +76,7 @@ class FileHanlder {
   /// Creates mock files to test if the folder is working
   void _mockFiles() async {
     try {
-      File newFile = File('${_recordingDir!.path}/trial_file_1.csv');
+      File newFile = File('${_recordingDir?.path}/trial_file_1.csv');
       await newFile.writeAsString("title,count\n",
           mode: FileMode.writeOnlyAppend);
     } catch (err) {
@@ -90,5 +91,23 @@ class FileHanlder {
   /// [fileToDelete] = name of the file to be deleted
   void delete_recording(String fileToDelete) {
     File('${_recordingDir?.path}/$fileToDelete').deleteSync();
+  }
+
+  Future<List<File>> get listRecordings async {
+    List<File> recList = [];
+    if (_recordingDir != null) {
+      await for (var el in _recordingDir!.list()) {
+        // want to list only the files
+        if (el is File) {
+          recList.add(el);
+        }
+      }
+    } else {
+      devtools.log(
+        "Tried to access a folder which is null",
+        name: runtimeType.toString(),
+      );
+    }
+    return recList;
   }
 }

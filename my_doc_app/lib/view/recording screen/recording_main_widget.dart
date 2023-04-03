@@ -13,7 +13,7 @@ class RecordingMainWidget extends StatefulWidget {
 }
 
 class _RecordingMainWidgetState extends State<RecordingMainWidget> {
-  var recordingDirectory = FileHanlder.instance.recordingsDirectory;
+  var fileHandler = FileHanlder.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -29,19 +29,36 @@ class _RecordingMainWidgetState extends State<RecordingMainWidget> {
             style: TextStyle(fontWeight: FontWeight.w200, fontSize: 40),
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text(
-            "Path to the folder with the recordings:",
-            style: Theme.of(context).textTheme.headline6,
-          ),
+        FutureBuilder(
+          future: fileHandler.documentDirectory,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState != ConnectionState.done) {
+              return const CircularProgressIndicator();
+            } else {
+              return Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      "Path to the folder with the recordings:",
+                      style: Theme.of(context).textTheme.headline6,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(fileHandler.recordingsDirectory!),
+                  ),
+                  const RecordingAnimatedWidget(),
+                  // todo: remove this widget, it is here only for debug purpose
+                  RecordingFileWidget(
+                      fileName: "Trial, very long name",
+                      fileCreationDate: DateTime(2023).toIso8601String()),
+                  // RecordingList(),
+                ],
+              );
+            }
+          },
         ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text(recordingDirectory ?? 'Not initialized...'),
-        ),
-        const RecordingAnimatedWidget(),
-        RecordingFileWidget(),
       ],
     );
   }
