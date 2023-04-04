@@ -48,8 +48,9 @@ class FileHanlder {
     await _getDirectories();
     await _getSharedPreferences();
     // don't care the order of execution of the two following method
-    _mockFiles();
+
     createRecordingFile();
+    numOfFiles = 0; // initialize the number of files
     //-----------------------
     await listRecordings;
   }
@@ -100,7 +101,12 @@ class FileHanlder {
   /// it return `true`.
   bool createRecordingFile() {
     try {
-      numOfFiles++; // increment the number of files
+      numOfFiles++;
+      // if the file with that number exists already the variable numOfFiles is incremented
+      while (File('${_recordingDir?.path}/$recordingPrefix$numOfFiles.csv')
+          .existsSync()) {
+        numOfFiles++;
+      } // increment the number of files
       File file = File('${_recordingDir?.path}/$recordingPrefix$numOfFiles.csv')
         ..createSync();
 
