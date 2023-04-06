@@ -19,6 +19,7 @@ class FileHanlder {
   final String recordingPrefix = 'rec_';
   final String recordingKey = 'numerOfFiles';
   final String headerRecording = 'tick,x,y,z';
+  final String fileExtension = '.csv';
 
   /// Object which allow to retrieve the count of files we have in the folder.
   late SharedPreferences _preferences;
@@ -103,11 +104,13 @@ class FileHanlder {
     try {
       numOfFiles++;
       // if the file with that number exists already the variable numOfFiles is incremented
-      while (File('${_recordingDir?.path}/$recordingPrefix$numOfFiles.csv')
+      while (File(
+              '${_recordingDir?.path}/$recordingPrefix$numOfFiles$fileExtension')
           .existsSync()) {
         numOfFiles++;
       } // increment the number of files
-      File file = File('${_recordingDir?.path}/$recordingPrefix$numOfFiles.csv')
+      File file = File(
+          '${_recordingDir?.path}/$recordingPrefix$numOfFiles$fileExtension')
         ..createSync();
 
       return _writeHeaderRecordingFile(file);
@@ -122,6 +125,15 @@ class FileHanlder {
       );
       return false;
     }
+  }
+
+  bool startRecording() {
+    devtools.log("Starting the recording");
+    createRecordingFile();
+    // todo complete the method to enable the recording(logic for writing on the file)
+    _writeHeaderRecordingFile(
+        File('$recordingsDirectory/$recordingPrefix$numOfFiles$fileExtension'));
+    return true;
   }
 
   bool _writeHeaderRecordingFile(File file) {
