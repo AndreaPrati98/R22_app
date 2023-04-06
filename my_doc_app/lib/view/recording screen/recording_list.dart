@@ -1,4 +1,4 @@
-import 'dart:developer';
+import 'dart:developer' as devtools;
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -38,18 +38,44 @@ class _RecordingListWidgetState extends State<RecordingListWidget> {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: ListView(
-        shrinkWrap: true,
-        // primary: false,
-        children: recordingLists
-            .map(
-              (e) => RecordingFileWidget(
-                fileName: p.basename(e.path),
-                fileCreationDate: e.lastModifiedSync().toIso8601String(),
-                callbackRefreshState: () => _retrieveListFile(),
-              ),
-            )
-            .toList(),
+      child: AnimatedSwitcher(
+        duration: const Duration(milliseconds: 200),
+        transitionBuilder: (child, animation) {
+          return ScaleTransition(
+            scale: animation,
+            child: FadeTransition(
+              opacity: animation,
+              child: child,
+            ),
+          );
+        },
+        child: ListView(
+          key: ValueKey<int>(recordingLists.length),
+          shrinkWrap: true,
+          // primary: false,
+          children: [
+            Center(
+              child: ElevatedButton(
+                  onPressed: () => _retrieveListFile(),
+                  child: const Text("Referesh the recording list")),
+            ),
+            ...recordingLists
+                .map(
+                  (e) => RecordingFileWidget(
+                    fileName: p.basename(e.path),
+                    fileCreationDate: e.lastModifiedSync().toIso8601String(),
+                    callbackRefreshState: () => _retrieveListFile(),
+                  ),
+                )
+                .toList()
+              ..sort(
+                (a, b) {
+                  return DateTime.parse(b.fileCreationDate)
+                      .compareTo(DateTime.parse(a.fileCreationDate));
+                },
+              )
+          ],
+        ),
       ),
     );
   }
