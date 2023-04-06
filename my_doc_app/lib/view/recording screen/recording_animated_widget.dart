@@ -1,6 +1,7 @@
 import 'dart:developer' as devtools;
 
 import 'package:flutter/material.dart';
+import 'package:my_doc_app/model/file_handler.dart';
 import 'package:simple_ripple_animation/simple_ripple_animation.dart';
 
 class RecordingAnimatedWidget extends StatefulWidget {
@@ -14,8 +15,8 @@ class RecordingAnimatedWidget extends StatefulWidget {
 class _RecordingAnimatedWidgetState extends State<RecordingAnimatedWidget> {
   bool _isRecording = false;
 
-  double _rippleRadius = 5;
-  double _dividerWidth = 200;
+  final double _rippleRadius = 5;
+  final double _dividerWidth = 200;
 
   @override
   void dispose() {
@@ -47,14 +48,15 @@ class _RecordingAnimatedWidgetState extends State<RecordingAnimatedWidget> {
                   TextButton(
                     onPressed: () {
                       devtools.log("Cancel", name: runtimeType.toString());
-                      _exit_dialog();
+                      _exitDialog();
                     },
                     child: const Text('Cancel'),
                   ),
                   ElevatedButton(
                     onPressed: () {
                       devtools.log("Confirm", name: runtimeType.toString());
-                      _exit_dialog();
+                      FileHanlder.instance.startRecording();
+                      _exitDialog();
                     },
                     child: const Text('Confirm'),
                   )
@@ -76,14 +78,14 @@ class _RecordingAnimatedWidgetState extends State<RecordingAnimatedWidget> {
                   TextButton(
                     onPressed: () {
                       devtools.log("Cancel", name: runtimeType.toString());
-                      _exit_dialog();
+                      _exitDialog();
                     },
                     child: const Text('Cancel'),
                   ),
                   ElevatedButton(
                     onPressed: () {
                       devtools.log("Confirm", name: runtimeType.toString());
-                      _exit_dialog();
+                      _exitDialog();
                     },
                     child: const Text('Confirm'),
                   )
@@ -159,7 +161,7 @@ class _RecordingAnimatedWidgetState extends State<RecordingAnimatedWidget> {
       SizedBox(width: width, child: const Divider(thickness: 2));
 
   /// method for exiting from the dialog interface updating the
-  void _exit_dialog() {
+  void _exitDialog() {
     setState(() {
       _isRecording = !_isRecording;
     });
