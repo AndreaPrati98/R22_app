@@ -32,9 +32,69 @@ class _RecordingAnimatedWidgetState extends State<RecordingAnimatedWidget> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        setState(() {
-          _isRecording = !_isRecording;
-        });
+        // here we handle the request to create the recording file
+        if (!_isRecording) {
+          // case the user want to start the recording
+          // asking if the user is sure
+          showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                title: const Text("Create registration"),
+                content: const Text(
+                    'By starting the registration you will create a new file.'),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      devtools.log("Cancel", name: runtimeType.toString());
+                      _exit_dialog();
+                    },
+                    child: const Text('Cancel'),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      devtools.log("Confirm", name: runtimeType.toString());
+                      _exit_dialog();
+                    },
+                    child: const Text('Confirm'),
+                  )
+                ],
+              );
+            },
+          );
+        } else {
+          // case the user want to stop the recording
+          // asking if the user is sure
+          showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                title: const Text("Stop registration"),
+                content: const Text(
+                    'Are you sure you want to stop the registration?'),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      devtools.log("Cancel", name: runtimeType.toString());
+                      _exit_dialog();
+                    },
+                    child: const Text('Cancel'),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      devtools.log("Confirm", name: runtimeType.toString());
+                      _exit_dialog();
+                    },
+                    child: const Text('Confirm'),
+                  )
+                ],
+              );
+            },
+          );
+        }
+        // setState(() {
+        //   _isRecording = !_isRecording;
+        // });
       },
       child: Padding(
         padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
@@ -97,6 +157,15 @@ class _RecordingAnimatedWidgetState extends State<RecordingAnimatedWidget> {
 
   SizedBox _localDevider(double width) =>
       SizedBox(width: width, child: const Divider(thickness: 2));
+
+  /// method for exiting from the dialog interface updating the
+  void _exit_dialog() {
+    setState(() {
+      _isRecording = !_isRecording;
+    });
+
+    Navigator.pop(context);
+  }
 
   Widget _conditionalRippleAnimation() {
     return _isRecording
