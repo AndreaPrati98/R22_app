@@ -20,7 +20,7 @@ class _RecordingMainWidgetState extends State<RecordingMainWidget> {
     return Column(
       children: [
         Container(
-          height: 80,
+          constraints: const BoxConstraints(minHeight: 80),
           decoration: BoxDecoration(
               border: Border.all(color: Colors.black, width: 0.2)),
           alignment: AlignmentDirectional.center,
