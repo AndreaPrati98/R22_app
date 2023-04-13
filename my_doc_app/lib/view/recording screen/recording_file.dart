@@ -3,6 +3,7 @@ import 'dart:developer' as devtools;
 import 'package:flutter/material.dart';
 import 'package:my_doc_app/model/file_handler.dart';
 
+/// Recording tile, very simple widget.
 class RecordingFileWidget extends StatelessWidget {
   final String fileName;
   final String fileCreationDate;

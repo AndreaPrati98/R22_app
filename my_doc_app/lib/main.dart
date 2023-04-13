@@ -15,6 +15,10 @@ import 'package:my_doc_app/view/recording%20screen/recording_main_widget.dart';
 import 'package:my_doc_app/view/share%20files/share_main_widget.dart';
 import 'package:provider/provider.dart';
 
+/// Entry point of the application.
+///
+/// It runs the [WidgetsFlutterBinding.ensureInitialized] function and a series of simple
+/// variables useful for being part of the state of the application.
 void main() {
   // This is important to be sure that everything is initialized.
   // check on internet to know more about this line;
@@ -41,34 +45,40 @@ void main() {
     logMessage: _bleLogger.addToLog,
   );
 
-  runApp(MultiProvider(providers: [
-    Provider.value(value: _scanner),
-    Provider.value(value: _monitor),
-    Provider.value(value: _connector),
-    Provider.value(value: _serviceDiscoverer),
-    Provider.value(value: _bleLogger),
-    StreamProvider<BleScannerState?>(
-      create: (_) => _scanner.state,
-      initialData: const BleScannerState(
-        discoveredDevices: [],
-        scanIsInProgress: false,
-      ),
+  runApp(
+    MultiProvider(
+      providers: [
+        Provider.value(value: _scanner),
+        Provider.value(value: _monitor),
+        Provider.value(value: _connector),
+        Provider.value(value: _serviceDiscoverer),
+        Provider.value(value: _bleLogger),
+        StreamProvider<BleScannerState?>(
+          create: (_) => _scanner.state,
+          initialData: const BleScannerState(
+            discoveredDevices: [],
+            scanIsInProgress: false,
+          ),
+        ),
+        StreamProvider<BleStatus?>(
+          create: (_) => _monitor.state,
+          initialData: BleStatus.unknown,
+        ),
+        StreamProvider<ConnectionStateUpdate>(
+          create: (_) => _connector.state,
+          initialData: const ConnectionStateUpdate(
+            deviceId: 'Unknown device',
+            connectionState: DeviceConnectionState.disconnected,
+            failure: null,
+          ),
+        ),
+      ],
+      child: const MyApp(),
     ),
-    StreamProvider<BleStatus?>(
-      create: (_) => _monitor.state,
-      initialData: BleStatus.unknown,
-    ),
-    StreamProvider<ConnectionStateUpdate>(
-      create: (_) => _connector.state,
-      initialData: const ConnectionStateUpdate(
-        deviceId: 'Unknown device',
-        connectionState: DeviceConnectionState.disconnected,
-        failure: null,
-      ),
-    ),
-  ], child: const MyApp()));
+  );
 }
 
+/// [MyApp] is the [Scaffold] that contains the whole application.
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 

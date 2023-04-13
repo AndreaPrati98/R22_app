@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:my_doc_app/model/file_handler.dart';
 import 'package:simple_ripple_animation/simple_ripple_animation.dart';
 
+/// It's the widget that embed the UI for start and stop the recording.
+///
+/// It uses the [RippleAnimation] to animate the icon of recording.
 class RecordingAnimatedWidget extends StatefulWidget {
   const RecordingAnimatedWidget({Key? key}) : super(key: key);
 

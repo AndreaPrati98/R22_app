@@ -8,6 +8,9 @@ import 'package:provider/provider.dart';
 
 import 'device_detail/device_detail_screen.dart';
 
+/// [Widget] that is a [Scaffold] entry point to handle the connection with the devices.
+///
+/// The code has been taken from [HERE](https://github.com/PhilipsHue/flutter_reactive_ble/tree/master/example).
 class DeviceListScreen extends StatelessWidget {
   const DeviceListScreen({Key? key}) : super(key: key);
 

@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:my_doc_app/model/file_handler.dart';
 
+/// It is the less developed [Widget] of the application.  \
+/// The purpose has to be: offering an interface from which the user can share the recordings.
+///
+/// For reason of time it has not been implemented.
 class ShareMainWidget extends StatefulWidget {
   const ShareMainWidget({Key? key}) : super(key: key);
 

@@ -5,6 +5,10 @@ import 'package:my_doc_app/model/file_handler.dart';
 import 'package:my_doc_app/view/recording%20screen/recording_animated_widget.dart';
 import 'package:my_doc_app/view/recording%20screen/recording_list.dart';
 
+/// Main [Widget] from which it's possible to:
+/// - see and interact with the recordings on the device
+/// - see the recordings' folder
+/// - start and stop the recording process
 class RecordingMainWidget extends StatefulWidget {
   const RecordingMainWidget({Key? key}) : super(key: key);
 
