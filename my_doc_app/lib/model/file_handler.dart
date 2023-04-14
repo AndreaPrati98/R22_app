@@ -6,6 +6,15 @@ import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 /// It is the class that handle the writing on the file about what is coming in.
+///
+/// It's a *Singleton*, so when you request the instance you can share it along all the
+/// application.
+///
+/// All the files will be saved in the [recordingsDirectory], that is created using the [path_provider](https://pub.dev/packages/path_provider) library. \
+/// The recording files will all start with a prefix [recordingPrefix] and the file will have and header defined here:[headerRecording].
+///
+/// This class has been written with the idea of providing many different feature that will be necessary in order to achive the final goal: recording a streaming of data.
+///
 class FileHanlder {
   static final FileHanlder instance = FileHanlder._init();
 
@@ -80,7 +89,7 @@ class FileHanlder {
     _preferences = await SharedPreferences.getInstance();
   }
 
-  /// Creates mock files to test if the folder is working
+  /// Creates mock files to test if the folder is working.
   void _mockFiles() async {
     try {
       File newFile = File('${_recordingDir?.path}/trial_file_1.csv');
