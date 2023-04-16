@@ -14,3 +14,5 @@ Therefore, the application is logically splitted in 3 sections:
 - Bluetooth connection: this section is used to handle the connection with the device
 - Recording: it is used to handle the recordings on the phones. Start and Stop the recording
 - Share: this section is the less developed, it is meant to be the screem from which is possible to share in different ways the recordings.
+
+# Please have a look to the _WIKI_
